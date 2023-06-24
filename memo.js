@@ -49,56 +49,50 @@ star1.addEventListener("click", openCard)
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 
-    async function openCard(event){
-        openedListIDs.push(event.currentTarget.id)
+async function openCard(event){
+    openedListIDs.push(event.currentTarget.id)
     
-        event.currentTarget.classList.add('opClass')
+    event.currentTarget.classList.add('opClass')
     
-        if(openedListIDs.length === 2){
-            if(openedListIDs[0].startsWith(openedListIDs[1].slice(0,3))){
+    if(openedListIDs.length === 2){
+        if(openedListIDs[0].startsWith(openedListIDs[1].slice(0,3))){
                 
-                cards.forEach(async (x) => {
-                    if(x.id === openedListIDs[0] || x.id === openedListIDs[1]){
+            cards.forEach(async (x) => {
+                if(x.id === openedListIDs[0] || x.id === openedListIDs[1]){
                         
-                        await delay(1000);
-                        x.classList.remove("opClass")
-                        x.classList.add("found")
-                        openedList.push(x.classList)
+                    await delay(1000);
+                    x.classList.remove("opClass")
+                    x.classList.add("found")
+                    openedList.push(x.classList)
                         
-                    } 
-                })
-                bildi()
+                } 
+            })
+            bildi()
                 
-            }
-            
-            
-            else{
-                
-                cards.forEach(async (x) => {
-                    if(x.id === openedListIDs[0] || x.id === openedListIDs[1]){
-                        
-                        await delay(2000);
-                        x.classList.remove("opClass")
-                        
-                    } 
-                })
-                bilemedi()
-            }
-            
-            openedListIDs.pop()
-            openedListIDs.pop()
-            
         }
-        console.log(openedList.length);
-        await delay(2000);
-        if(openedList.length === 20){
-            bitti()
+        else{
+                
+            cards.forEach(async (x) => {
+                if(x.id === openedListIDs[0] || x.id === openedListIDs[1]){
+                        
+                    await delay(2000);
+                    x.classList.remove("opClass")
+                        
+                } 
+            })
+            bilemedi()
         }
-        
+            
+        openedListIDs.pop()
+        openedListIDs.pop()
+            
     }
-
-
-
+    console.log(openedList.length);
+    await delay(1000);
+    if(openedList.length === 20){
+        bitti()
+    }
+}
 
 let text = document.querySelector(".text")
 
@@ -115,12 +109,46 @@ function bilemedi(){
     text.style.animation = "resultTextNegative 1s 1 ease-in-out forwards";
 }
 function bitti (){
-    text.innerHTML = 'Congratulations.. Game Over... Press Play Again to play again'
+    text.innerHTML = 'Game Over... Press Play Again button to play again'
     text.style.color = "#1f66d6"
     text.style.fontSize = "large"
     text.style.animation = "resultTextBitti 1s 1 ease-in-out forwards";
 }
 
+const playAgainBtn = document.querySelector(".btn-danger")
 
+playAgainBtn.addEventListener(('click'), () => {
+    
+    //cards = Array.from(cards)
+
+    const shuffleArray = (array) => {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+      };
+      
+    
+    cards = shuffleArray(cards)
+    updateDOM(cards)
+      
+    function updateDOM(providedData){
+        
+        
+        let sectionRow = document.getElementById("row")
+        console.log(typeof sectionRow);
+        sectionRow = Array.from(sectionRow)
+
+        providedData.forEach(item => {
+            const element = document.createElement('div')
+            element.innerHTML = `<div class="col col-xs-1 col-sm-2 col-md-4 col-lg-2 cards">${item.textContent}</div>`
+            sectionRow.appendChild(element) 
+        })
+      
+    }  
+}
+)
 
 
