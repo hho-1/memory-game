@@ -143,7 +143,7 @@ playAgainBtn.addEventListener(('click'), () => {
 
         providedData.forEach(item => {
             const element = document.createElement('div')
-            element.innerHTML = `<div class="col col-xs-1 col-sm-2 col-md-4 col-lg-2 cards">${item.textContent}</div>`
+            element.innerHTML = `<div class="col col-xs-1 col-sm-2 col-md-4 col-lg-2 cards">${item.innerHTML}</div>`
             sectionRow.appendChild(element) 
         })
       
